@@ -13,7 +13,10 @@
   </head>
   <body>
     <h1>Hello World</h1>
+    <input id="tickerInput" type="text" placeholder="Enter ticker symbol">
+    <button type="button" onclick="search()">Get Ticker</button>
   </body>
+  <script type="text/javascript" src="./javascripts/index.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io();
