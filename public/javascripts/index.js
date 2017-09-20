@@ -11,7 +11,7 @@ window.onload = function() {
   xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
   xhr.onload = function() {
       if (xhr.status === 200) {
-        console.log(xhr.responseText);
+        // console.log(xhr.responseText);
       }
       else {
           console.error("you suck: API request function");
@@ -29,11 +29,54 @@ function search() {
   xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
   xhr.onload = function() {
       if (xhr.status === 200) {
-        console.log(xhr.responseText);
-      }
-      else {
+        let responseObject = JSON.parse(xhr.responseText);
+        // Restructure the shape of the API response to build the chart
+        let close = "4. close";
+        let key = 'Time Series (Daily)';
+        let datesArray = Object.getOwnPropertyNames(responseObject[key]);
+        let newArray = Object.values(responseObject[key])
+        let dataArray = [];
+        newArray.forEach(function(element) {
+          dataArray.push(element[close]);
+        });
+        
+        let dataToSocket = JSON.stringify([datesArray, dataArray]);
+
+        // Fire data off the socket
+        var socket = io();
+        socket.emit("search result", dataToSocket);
+        socket.on('search result', function(search){
+          let socketObject = JSON.parse(search);
+          buildChart(socketObject[0], socketObject[1]);
+          return false;
+        });
+
+        // Build the chart
+        // buildChart(datesArray, dataArray);
+
+        }
+        else {
           console.error("you suck: API request function");
+        }
       }
+      xhr.send();    
   }
-  xhr.send();
+
+
+// ChartJS code
+function buildChart(datesArray, dataArray) {
+  var ctx = document.getElementById("myChart");
+  var myChart = new Chart(ctx, {
+      type: 'line',
+        data: {
+          labels: datesArray,
+          datasets: [{
+            label: 'AAPL',
+            data: dataArray,
+            borderWidth: 1,
+            fill: false
+          }]
+        }
+      }
+  );
 }
