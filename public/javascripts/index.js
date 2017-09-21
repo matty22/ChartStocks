@@ -27,7 +27,7 @@ window.onload = function() {
         });
         
         runningChartDataObject.labels = datesArray;
-        runningChartDataObject.datasets.push( {label: metadataArray[1], data: dataArray, borderWidth: 1, fill: false, borderColor: '#00ff00' });
+        runningChartDataObject.datasets.push( {label: metadataArray[1], data: dataArray, borderWidth: 1, fill: false, borderColor: '#228b22' });
 
         let dataToSocket = JSON.stringify(runningChartDataObject);
 
