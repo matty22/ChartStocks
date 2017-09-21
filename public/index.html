@@ -15,8 +15,12 @@
     <main>
         <canvas id="myChart" width="1250" height="550"></canvas>
     </main>
-    <input id="tickerInput" type="text" placeholder="Enter ticker symbol">
-    <button type="button" onclick="search()">Get Ticker</button>
+    <section>
+      <input id="tickerInput" type="text" placeholder="Enter ticker symbol">
+      <button type="button" onclick="search()">Get Ticker</button>
+    </section>
+    <section id="stockDisplay">
+    </section>
   </body>
   <script type="text/javascript" src="./javascripts/index.js"></script>
   <script src="/socket.io/socket.io.js"></script>
