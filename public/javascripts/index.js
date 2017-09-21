@@ -36,7 +36,6 @@ window.onload = function() {
         socket.emit("search result", dataToSocket);
         socket.on('search result', function(search){
           let socketObject = JSON.parse(search);
-          console.log(socketObject);
           buildChart(socketObject);
         });
         createStockCard('MSFT');
@@ -76,11 +75,10 @@ function search() {
         let dataToSocket = JSON.stringify(runningChartDataObject);
 
         // Fire data off the socket
-        var socket = io();
+        let socket = io();
         socket.emit("search result", dataToSocket);
         socket.on('search result', function(search){
           let socketObject = JSON.parse(search);
-          console.log(socketObject);
           buildChart(socketObject);
         });
         createStockCard(symbol);
@@ -106,13 +104,6 @@ function buildChart(socketObject) {
   );
 }
 
-
-// Function that reformats XHR results and preps it for buildChart() 
-function formatData(responseObject) {
-  
-}
-
-
 // Generate random colors for data lines
 function generateColor() {
   let letters = '0123456789ABCDEF';
@@ -128,6 +119,31 @@ function generateColor() {
 function createStockCard(symbol) {
   let stockCard = document.createElement("div");
   let stockRow = document.getElementById('stockDisplay');
-  stockCard.innerHTML = "<h4>" + symbol + "</h4>";
+  stockCard.innerHTML = '<h4>' + symbol + '</h4>';
+  stockCard.onclick = function() {
+    deleteStock(symbol)
+    let deleteChild = this;
+    deleteChild.parentNode.removeChild(deleteChild);
+    return false;
+  };
   stockRow.appendChild(stockCard);
+}
+
+
+// Remove stock from row of cards, chart, and socket
+function deleteStock(symbol) {
+  for (let i = 0; i < runningChartDataObject.datasets.length; i++) {
+    if (runningChartDataObject.datasets[i].label === symbol) {
+      runningChartDataObject.datasets.splice(i, 1);
+    }
+  }
+  let dataToSocket = JSON.stringify(runningChartDataObject);
+  
+  // Fire data off the socket
+  let socket = io();
+  socket.emit("search result", dataToSocket);
+  socket.on('search result', function(search){
+    let socketObject = JSON.parse(search);
+    buildChart(socketObject);
+  }); 
 }
