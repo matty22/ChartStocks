@@ -1,6 +1,7 @@
 
 // Replace with environment variable before production
 let alphaAdvantageKey = 'MCVCJGWR900F07S6';
+// let alphaAdvantageKey = process.env.KEY;
 var runningChartDataObject = {
   labels: '',
   datasets: []
