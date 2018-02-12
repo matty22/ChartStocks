@@ -10,7 +10,7 @@ Search for any valid stock symbol using the search field. To remove a stock that
 
 This project has open issues. Development is based on the development branch. To contribute, follow these steps:
 
-* `git clone https://github.com/matty22/vue-pomodoro.git`
+* `git clone https://github.com/matty22/ChartStocks.git`
 * `git checkout development`
 * `git checkout -b issue-label/reference-to-issue` (ex. bug/fix-grammar-error)
 
